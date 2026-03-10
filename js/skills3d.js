@@ -57,6 +57,16 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     let nodes = {}; // Global reference for UI helpers
     let updateTooltip; // Global reference for UI helpers
 
+    // EXPORTS FOR 2D TREE
+    window.isHiringMode = () => hiringModeActive;
+    window.toggleSkillCart = (id) => toggleCartItem(id);
+    window.getCart = () => Array.from(cart);
+    window.updateVisualsFromCart = () => {
+        // Force update of 2D nodes if they exist
+        const event = new CustomEvent('cartUpdated', { detail: { cart: Array.from(cart) } });
+        window.dispatchEvent(event);
+    };
+
     // --- Visual Helpers (Global for UI) ---
     const getColor = (status) => {
         if (status === 'mastered') return 0x0aff60; 
@@ -135,6 +145,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
             node.material.emissive.setHex(getGlowColor(node.userData.skill));
             node.material.emissiveIntensity = 0.8;
             node.scale.set(node.userData.originalScale, node.userData.originalScale, node.userData.originalScale);
+            // Reset Bloom
+            if(node.userData.sprite) node.userData.sprite.material.color.setHex(getGlowColor(node.userData.skill));
         } else {
             cart.add(id);
             // Visual Selected (Gold/White Highlight)
@@ -142,11 +154,19 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
                 node.material.color.setHex(0xffffff); // White
                 node.material.emissive.setHex(0xffd700); // Gold Glow
                 node.material.emissiveIntensity = 2.0;
+                
+                // Update Bloom (Sprite)
+                if(node.userData.sprite) {
+                    node.userData.sprite.material.color.setHex(0xffd700);
+                    // node.userData.sprite.scale.set(...) // Optional pulse
+                }
+
                 const s = node.userData.originalScale * 1.3;
                 node.scale.set(s, s, s);
             }
         }
         updateCartUI();
+        window.updateVisualsFromCart(); // Force update 2D
     };
 
     const activatePreset = (presetKey) => {
@@ -185,6 +205,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
             
             // Visual Hint
             if(hiringModeActive) updateTooltip({ label: 'MODO CONTRATAÇÃO', desc: 'Clique nos nós para adicionar ao orçamento.', status: 'recruit' });
+            
+            // Sync with 2D Visuals
+            window.updateVisualsFromCart();
         });
     }
 
@@ -242,10 +265,10 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('skill-tree');
+    const container = document.getElementById('skill-tree-3d');
     if (!container) return;
 
-    // Limpar container anterior (2D)
+    // Remove legacy container cleanup if needed
     container.innerHTML = '';
     
     // Inject UI Controls & Styles

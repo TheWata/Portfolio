@@ -1,7 +1,7 @@
 // js/skill-tree.js
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const container = document.getElementById('skill-tree');
+    const container = document.getElementById('skill-tree-2d');
     if (!container) return;
 
     // 1. Importação Assíncrona
@@ -30,8 +30,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         desc: document.querySelector('.tooltip-desc')
     };
 
-    // 3. Sistema de Expansão, Renderização e Pan (Drag)
-    const expandedNodes = new Set(['root']); // Estado inicial: apenas Raiz expandido
+    // 3. Sistema de Expansão e Renderização
+    // REMOVIDO: expandedNodes e lógica de expandir. Agora mostra tudo.
     
     // Estado do Pan/Zoom
     let panState = { x: 0, y: 0, scale: 1 };
@@ -46,58 +46,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     treeLayer.style.animation = 'none';
     treeLayer.style.transition = 'none';
 
-    // Estado de Expansão Global
+    // Estado de Expansão removido (botão não é mais necessário, se existir pode ser ocultado)
     const toggleBtn = document.getElementById('toggle-tree-btn');
-    let isAllExpanded = false;
+    if (toggleBtn) toggleBtn.style.display = 'none';
 
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Evitar conflito com drag
-            if (isAllExpanded) {
-                // Collapse All
-                expandedNodes.clear();
-                expandedNodes.add('root');
-                toggleBtn.textContent = 'EXPANDIR TUDO';
-                isAllExpanded = false;
-            } else {
-                // Expand All
-                skillsData.forEach(s => expandedNodes.add(s.id));
-                toggleBtn.textContent = 'RECOLHER TUDO';
-                isAllExpanded = true;
-            }
-            renderTree();
-        });
-    }
-
-    // Rastreamento para animação
-    let previousVisibleIds = new Set(['root']);
-
-    const getVisibleSkills = () => {
-        const visible = new Set(['root']);
-        const queue = ['root'];
-        const processed = new Set(['root']);
-
-        while(queue.length > 0) {
-            const currentId = queue.shift();
-            
-            if (expandedNodes.has(currentId)) {
-                // Encontrar filhos
-                const children = skillsData.filter(s => {
-                    const parents = s.parents || (s.parent ? [s.parent] : []);
-                    return parents.includes(currentId);
-                });
-
-                children.forEach(child => {
-                    if (!processed.has(child.id)) {
-                        visible.add(child.id);
-                        processed.add(child.id);
-                        queue.push(child.id);
-                    }
-                });
-            }
-        }
-        return skillsData.filter(s => visible.has(s.id));
-    };
+    // Visualização: Mostrar todos os skills
+    const getVisibleSkills = () => skillsData;
 
     const updateTransform = () => {
         treeLayer.style.transform = `translate(${panState.x}px, ${panState.y}px) scale(${panState.scale})`;
@@ -113,91 +67,96 @@ document.addEventListener('DOMContentLoaded', async () => {
         treeLayer.appendChild(svg);
 
         const visibleSkills = getVisibleSkills();
-        const currentVisibleIds = new Set(visibleSkills.map(s => s.id));
         
+        // Check cart visuals if available
+        const currentCart = (window.getCart) ? new Set(window.getCart()) : new Set();
+        const hiringActive = (window.isHiringMode) ? window.isHiringMode() : false;
+
+        // Helper Cor por Categoria (Consistente com 3D)
+        const getCategoryColor = (s) => {
+            if (s.id === 'root') return '#2979ff'; // Root Blue (Custom CSS handles size, but color here ensures match)
+            if (['data_root', 'excel', 'pbi', 'dax', 'python', 'sql', 'postgresql', 'sqlserver', 'firebase'].includes(s.id) || s.parent === 'data_root') return '#0aff60';
+            if (['game_root', 'unity', 'godot'].includes(s.id) || s.parent === 'game_root') return '#bd00ff'; 
+            return '#00f3ff'; // Dev defaults
+        };
+
         // Desenhar Nós
         visibleSkills.forEach((skill, index) => {
             const node = document.createElement('div');
-            node.classList.add('skill-node', skill.status === 'mastered' ? 'status-mastered' : 'status-developing');
-            if (expandedNodes.has(skill.id)) node.classList.add('node-expanded');
+            // Apenas classe base, sem status de cor na borda
+            node.classList.add('skill-node');
+            
+            // Aplicar cor da categoria na borda e glow suave
+            const catColor = getCategoryColor(skill);
+            node.style.borderColor = catColor;
+            node.style.boxShadow = `0 0 10px ${catColor}40`; // 25% opacity hex roughly
             
             node.id = `node-${skill.id}`;
 
-            // Lógica de Animação de Entrada
-            const isNew = !previousVisibleIds.has(skill.id);
+            // Posição estática (sem animação de expansão)
+            node.style.left = `${skill.x}%`;
+            node.style.top = `${skill.y}%`;
+            node.style.opacity = '1';
+
+            // Cart Highlight (2D)
+            const hiringActive = (window.isHiringMode) ? window.isHiringMode() : false;
             
-            if (isNew && skill.id !== 'root') {
-                // Encontrar pai visível para animar de lá
-                const parents = skill.parents || (skill.parent ? [skill.parent] : []);
-                // Priorizar pai que já estava visível ou que está sendo renderizado agora
-                const parentId = parents[0]; // Simplificação: pega o primeiro pai
-                const parentSkill = skillsData.find(s => s.id === parentId);
-                
-                if (parentSkill) {
-                    // Posicionar inicialmente no pai
-                    node.style.left = `${parentSkill.x}%`;
-                    node.style.top = `${parentSkill.y}%`;
-                    node.style.opacity = '0';
-                    node.style.transform = 'translate(-50%, -50%) scale(0.5)'; // Começar pequeno
-                    
-                    // Forçar reflow/frame seguinte para animar
-                    requestAnimationFrame(() => {
-                        // Timeout pequeno para garantir que o navegador processou a posição inicial
-                        setTimeout(() => {
-                            node.style.left = `${skill.x}%`;
-                            node.style.top = `${skill.y}%`;
-                            node.style.opacity = '1';
-                            node.style.transform = 'translate(-50%, -50%) scale(1)';
-                        }, 50);
-                    });
-                } else {
-                    node.style.left = `${skill.x}%`;
-                    node.style.top = `${skill.y}%`;
-                }
+            if (currentCart.has(skill.id)) {
+                node.style.borderColor = '#ffd700'; // Override category color
+                node.style.boxShadow = '0 0 20px #ffd700';
+                node.style.transform = 'translate(-50%, -50%) scale(1.2)';
+                node.style.zIndex = '100';
             } else {
-                // Posição estática (já estava visível)
-                node.style.left = `${skill.x}%`;
-                node.style.top = `${skill.y}%`;
-                node.style.opacity = '1';
+                 node.style.borderColor = catColor;
+                 node.style.boxShadow = `0 0 10px ${catColor}40`;
+                 node.style.transform = 'translate(-50%, -50%) scale(1)';
+                 node.style.zIndex = 'auto';
             }
 
-            // node.style.animationDelay removido para não conflitar com a animação manual JS
-            // node.style.animationDelay = `${index * 0.05}s`; 
-
-            // Verificar filhos para indicador
-            const hasChildren = skillsData.some(s => {
-                const parents = s.parents || (s.parent ? [s.parent] : []);
-                return parents.includes(skill.id);
-            });
-
+            // Indicador de Status (Check ou Bookmark)
             let indicatorHtml = '';
-            if (hasChildren) {
-                const isExpanded = expandedNodes.has(skill.id);
-                indicatorHtml = `<div class="node-indicator">${isExpanded ? '-' : '+'}</div>`;
+            // Se for root, ignora
+            if (skill.id !== 'root') {
+                if (skill.status === 'mastered') {
+                    // Green Check
+                     indicatorHtml = `<div class="node-indicator" style="border-color: #0aff60; color: #0aff60; background: rgba(10, 255, 96, 0.1);">
+                        <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+                     </div>`;
+                } else {
+                    // Yellow Bookmark
+                    indicatorHtml = `<div class="node-indicator" style="border-color: #ffe600; color: #ffe600; background: rgba(255, 230, 0, 0.1);">
+                        <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
+                    </div>`;
+                }
             }
 
             node.innerHTML = `
                 <div class="node-icon">
-                    <i data-lucide="${skill.icon}"></i>
+                    <i data-lucide="${skill.icon}" style="color: ${catColor};"></i>
                 </div>
                 <span class="node-label">${skill.label}</span>
                 ${indicatorHtml}
             `;
 
-            // Clique para expandir/recolher
+            // Interaction
             let isClick = true;
             node.addEventListener('mousedown', () => isClick = true);
             node.addEventListener('mousemove', () => isClick = false);
 
             node.addEventListener('click', (e) => {
                 e.stopPropagation();
-                
-                if (expandedNodes.has(skill.id)) {
-                    expandedNodes.delete(skill.id);
+                if (!isClick) return;
+
+                // Check Hiring Mode via Global
+                if (window.isHiringMode && window.isHiringMode()) {
+                    if (window.toggleSkillCart) {
+                        window.toggleSkillCart(skill.id);
+                        // Visual update is handled by listener below
+                    }
                 } else {
-                    expandedNodes.add(skill.id);
+                    // Normal interaction: just show tooltip? Or toggle (removed per request)?
+                    // Just show tooltip/highlight
                 }
-                renderTree();
             });
 
             node.addEventListener('mouseenter', () => {
@@ -216,8 +175,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             treeLayer.appendChild(node);
         });
 
-        // Desenhar Linhas (com delay ou transição se possível, mas SVG é mais complexo)
-        // Linhas aparecem instantaneamente para simplicidade, ou fade-in via CSS
+        // Desenhar Linhas (Agora sempre visíveis, sem animação complexa)
+        const currentVisibleIds = new Set(visibleSkills.map(s => s.id));
         visibleSkills.forEach(skill => {
             const parents = skill.parents || (skill.parent ? [skill.parent] : []);
             parents.forEach(pId => {
@@ -231,14 +190,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                         line.setAttribute("y2", `${skill.y}%`);
                         line.classList.add('connection-line');
                         line.id = `line-${pId}-${skill.id}`;
-                        
-                        // Opcional: Animar linha também
-                         if (!previousVisibleIds.has(skill.id)) {
-                             line.style.opacity = '0';
-                             line.style.transition = 'opacity 0.5s ease 0.3s'; // Delay para esperar o nó chegar
-                             setTimeout(() => line.style.opacity = '1', 100);
-                         }
-
                         svg.appendChild(line);
                     }
                 }
@@ -247,10 +198,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         lucide.createIcons();
         updateTransform();
-        
-        // Atualizar estado anterior
-        previousVisibleIds = currentVisibleIds;
     };
+
+    // --- Listener for Shared Cart Updates ---
+    window.addEventListener('cartUpdated', (e) => {
+        // Just re-render to update highlights
+        renderTree();
+    });
 
     // --- Lógica de Drag (Pan) ---
     container.addEventListener('mousedown', (e) => {
