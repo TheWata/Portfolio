@@ -1039,3 +1039,321 @@ ul { list-style: none; }
     }
 }
 
+
+/* --- Recruitment / Hiring Mode Styles --- */
+
+/* Toggle Button */
+.recruitment-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: 12px 24px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--color-game);
+    color: var(--color-game);
+    font-family: var(--font-display);
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 15px rgba(189, 0, 255, 0.2);
+}
+
+.recruitment-toggle-btn:hover {
+    background: var(--color-game);
+    color: #000;
+    box-shadow: 0 0 25px rgba(189, 0, 255, 0.6);
+    transform: scale(1.05);
+}
+
+.recruitment-toggle-btn.active {
+    background: #ff5555;
+    border-color: #ff5555;
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 85, 85, 0.4);
+}
+
+/* Side Panel */
+.recruitment-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100%;
+    background: rgba(15, 17, 26, 0.95);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    z-index: 900;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    padding: 80px 2rem 2rem 2rem; /* Top padding for navbar/btn */
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+}
+
+.recruitment-panel.open {
+    transform: translateX(0);
+}
+
+.panel-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+}
+
+.panel-title {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.panel-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-family: var(--font-code);
+}
+
+/* Presets */
+.presets-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+.preset-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    padding: 10px;
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.preset-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+.preset-btn.active {
+    background: rgba(0, 243, 255, 0.1);
+    border-color: var(--color-dev);
+    color: var(--color-dev);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+/* Cart List */
+.cart-list-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border-left: 3px solid var(--text-muted);
+    transition: all 0.2s;
+}
+
+.cart-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(2px);
+}
+
+.cart-item-name {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cart-item-price {
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    color: var(--color-data);
+}
+
+/* Footer / Total */
+.cart-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-family: var(--font-display);
+}
+
+.total-price {
+    color: var(--color-data);
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(10, 255, 96, 0.3);
+}
+
+.finish-hire-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--color-data);
+    color: #000;
+    border: none;
+    font-family: var(--font-display);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+.finish-hire-btn:hover {
+    box-shadow: 0 0 30px rgba(10, 255, 96, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Report Modal */
+#report-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+#report-modal.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.report-content {
+    background: var(--bg-panel);
+    border: 1px solid var(--color-dev);
+    width: 90%;
+    max-width: 600px;
+    padding: 3rem;
+    border-radius: 2px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 243, 255, 0.1);
+    font-family: var(--font-code);
+}
+
+/* Hologram Corners */
+.report-content::before {
+    content: ''; position: absolute; top: -2px; left: -2px; width: 20px; height: 20px;
+    border-top: 2px solid var(--color-dev); border-left: 2px solid var(--color-dev);
+}
+.report-content::after {
+    content: ''; position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px;
+    border-bottom: 2px solid var(--color-dev); border-right: 2px solid var(--color-dev);
+}
+
+.report-header {
+    text-align: center;
+    border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.report-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--color-dev);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.report-id {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.report-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.report-item label {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.report-value {
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+.highlight-value {
+    color: var(--color-data);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.skill-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin: 0 5px 5px 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+.close-report-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    font-family: var(--font-code);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.close-report-btn:hover {
+    border-color: var(--color-dev);
+    color: var(--color-dev);
+    background: rgba(0, 243, 255, 0.1);
+}

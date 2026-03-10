@@ -109,16 +109,96 @@
 
         <!-- Coluna Direita: A Árvore (Desktop) -->
         <div id="skill-tree" class="skill-tree-container">
-            <div class="tree-controls" style="position: absolute; top: 20px; right: 20px; z-index: 100;">
-                <button id="toggle-tree-btn" class="tree-toggle-btn">
-                    EXPANDIR TUDO
-                </button>
-            </div>
             <!-- JS vai injetar os nodos e SVG aqui -->
         </div>
 
     </main>
+    <!-- Recruitment UI -->
+    <button id="recruit-toggle" class="recruitment-toggle-btn">
+        <span>💼</span> Modo Recrutamento
+    </button>
+
+    <div id="recruitment-panel" class="recruitment-panel">
+        <h2 class="panel-header-title">Controle de Contratação</h2>
+        
+        <div class="presets-section">
+            <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem;">PRESETS DE BUILD RPG</h4>
+            <div class="presets-grid">
+                <button class="preset-btn" data-preset="architect">🏗️ The Architect</button>
+                <button class="preset-btn" data-preset="oracle">🔮 Data Oracle</button>
+                <button class="preset-btn" data-preset="gamemaster">🎮 Game Master</button>
+                <button class="preset-btn" data-preset="fullstack">⚔️ Full-Stack Hero</button>
+            </div>
+        </div>
+
+        <div class="cart-header">
+            <span>HABILIDADES SELECIONADAS</span>
+            <span id="cart-count">0</span>
+        </div>
+        <div id="cart-list" class="cart-list">
+            <!-- Items added via JS -->
+            <div style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                Clique nos nós da árvore para adicionar ao contrato.
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <div class="total-row">
+                <span>INVESTIMENTO</span>
+                <span id="total-price">R$ 0,00</span>
+            </div>
+            <button id="finish-hire" class="finish-hire-btn">
+                GERAR PROPOSTA
+            </button>
+        </div>
+    </div>
+
+    <!-- Final Report Modal -->
+    <div id="report-modal" class="hire-report-modal">
+        <div class="report-card">
+            <button id="close-report" class="close-report-btn">×</button>
+            
+            <header class="report-header">
+                <h2>Relatório de Missão</h2>
+                <h4>DOSSIÊ DE CONTRATAÇÃO CONFIDENCIAL</h4>
+            </header>
+
+            <div class="report-body">
+                <div id="report-preset-section" class="report-section">
+                    <strong>CLASSE SELECIONADA</strong>
+                    <p id="report-preset-name" style="color: var(--color-dev); font-size: 1.2rem;">Custom Build</p>
+                    <p id="report-preset-goal" style="font-style: italic; opacity: 0.8;"></p>
+                </div>
+
+                <div class="report-section">
+                    <strong>ARSENAL TÉCNICO (HABILIDADES)</strong>
+                    <div id="report-skills-list" class="skills-tags-container"></div>
+                </div>
+
+                <div class="report-summary-box">
+                    <strong>RESUMO PROFISSIONAL</strong>
+                    <p id="report-summary-text">
+                        O contratante optou por um perfil versátil...
+                    </p>
+                </div>
+
+                <div class="report-total-price" id="report-total">
+                    R$ 0,00
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script type="module" src="../js/skill-tree.js"></script>
+    <!-- Import Map para garantir versões compatíveis do Three.js e Addons -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="../js/skills3d.js"></script>
 </body>
 </html>
