@@ -352,6 +352,25 @@ ul { list-style: none; }
     box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
 }
 
+.tree-toggle-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(0, 243, 255, 0.1);
+    border: 1px solid var(--color-dev);
+    color: var(--color-dev);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+.tree-toggle-btn:hover {
+    background: var(--color-dev);
+    color: var(--bg-dark);
+    box-shadow: 0 0 25px rgba(0, 243, 255, 0.6);
+}
+
 /* SVG Lines */
 .skill-lines-svg {
     position: absolute;
@@ -389,7 +408,7 @@ ul { list-style: none; }
     align-items: center;
     cursor: pointer;
     z-index: 2;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: left 0.5s ease-out, top 0.5s ease-out, transform 0.3s ease, background-color 0.3s, border-color 0.3s;
     opacity: 0; /* Comeï¿½a invisï¿½vel para animaï¿½ï¿½o */
     animation: fadeInNode 0.8s forwards;
 }
@@ -415,6 +434,42 @@ ul { list-style: none; }
     color: var(--text-muted);
     pointer-events: none;
     text-shadow: 0 2px 2px rgba(0,0,0,0.8);
+}
+
+.node-indicator {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    background: var(--bg-panel);
+    border: 2px solid var(--text-muted);
+    border-radius: 50%;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 5;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+
+.status-mastered .node-indicator {
+    border-color: var(--color-data);
+    color: var(--color-data);
+    background-color: rgba(10, 255, 96, 0.1);
+}
+
+.status-developing .node-indicator {
+    border-color: var(--color-wip);
+    color: var(--color-wip);
+    background-color: rgba(255, 230, 0, 0.1);
+}
+
+.skill-node:hover .node-indicator {
+    transform: scale(1.2);
 }
 
 /* Cores de Status */
@@ -726,7 +781,7 @@ ul { list-style: none; }
     overflow-x: hidden;
 }
 
-/* Temas Específicos para a Seção de Projetos */
+/* Temas Especï¿½ficos para a Seï¿½ï¿½o de Projetos */
 .projects-section.theme-dev { --project-color: var(--color-dev); }
 .projects-section.theme-data { --project-color: var(--color-data); }
 .projects-section.theme-game { --project-color: var(--color-game); }
@@ -797,7 +852,7 @@ ul { list-style: none; }
     text-align: justify;
 }
 
-/* Botão Github */
+/* Botï¿½o Github */
 .btn-github {
     display: inline-flex;
     align-items: center;
@@ -950,7 +1005,7 @@ ul { list-style: none; }
 /* Mobile */
 @media (max-width: 900px) {
     .projects-section {
-        flex-direction: column-reverse; /* Detalhes em cima (popup) ou Cards primeiro? Normalmente Cards. Vamos deixar flex-col padrão */
+        flex-direction: column-reverse; /* Detalhes em cima (popup) ou Cards primeiro? Normalmente Cards. Vamos deixar flex-col padrï¿½o */
         flex-direction: column;
         padding-top: 100px;
     }
@@ -961,8 +1016,8 @@ ul { list-style: none; }
         top: 0; left: 0; height: 100vh;
         z-index: 2000;
         border-radius: 0;
-        padding-top: 80px; /* Espaço navbar */
-        transform: translateY(100%); /* Escondido por padrão no mobile */
+        padding-top: 80px; /* Espaï¿½o navbar */
+        transform: translateY(100%); /* Escondido por padrï¿½o no mobile */
         opacity: 0;
         pointer-events: none;
     }
@@ -975,7 +1030,7 @@ ul { list-style: none; }
     }
 
     .close-details-btn {
-        display: block; /* Só visível mobile se a gente adicionar */
+        display: block; /* Sï¿½ visï¿½vel mobile se a gente adicionar */
         position: absolute;
         top: 90px; right: 20px;
         background: none; border: none;
