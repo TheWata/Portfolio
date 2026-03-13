@@ -65,21 +65,45 @@ ul { list-style: none; }
 }
 
 .logo {
+    display: flex;
+    align-items: center;
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 2px;
 }
 
+.logo a {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+}
+
 .blink { animation: blinker 1s linear infinite; }
 @keyframes blinker { 50% { opacity: 0; } }
 
-.nav-links { display: flex; gap: 2rem; }
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 40px;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
 
 .nav-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    line-height: 1;
     font-family: var(--font-code);
     font-size: 0.9rem;
     position: relative;
-    padding: 5px 10px;
+    padding: 0 10px;
 }
 
 /* Hover Effects Específicos por Tema */
@@ -519,6 +543,10 @@ ul { list-style: none; }
     overflow: hidden;
 }
 
+.skill-tooltip-below-content {
+    margin-top: 1.5rem;
+}
+
 .skill-info-card::before {
     content: '';
     position: absolute;
@@ -907,6 +935,103 @@ ul { list-style: none; }
     position: relative;
 }
 
+.dashboard-chart-slide {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem 1rem 2.1rem 1rem;
+    color: var(--text-main);
+    background: linear-gradient(180deg, rgba(20, 22, 31, 0.9) 0%, rgba(10, 11, 16, 0.95) 100%);
+}
+
+.chart-slide-title {
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.6rem;
+}
+
+.chart-bars {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0.5rem 0.25rem;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.12);
+}
+
+.chart-bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+}
+
+.chart-bar {
+    width: 100%;
+    max-width: 34px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, rgba(10, 255, 96, 0.95) 0%, rgba(10, 255, 96, 0.25) 100%);
+    box-shadow: 0 0 10px rgba(10, 255, 96, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-bar-item:hover .chart-bar,
+.chart-bar-item.is-active .chart-bar {
+    transform: scaleY(1.03);
+    box-shadow: 0 0 16px rgba(10, 255, 96, 0.45);
+}
+
+.chart-value {
+    font-family: var(--font-code);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.chart-legend {
+    margin-top: 0.65rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.chart-legend-item {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    font-family: var(--font-code);
+    font-size: 0.72rem;
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-legend-item:hover,
+.chart-legend-item:focus-visible,
+.chart-legend-item.is-active {
+    color: var(--color-data);
+    border-color: var(--color-data);
+    box-shadow: 0 0 10px rgba(10, 255, 96, 0.25);
+    outline: none;
+}
+
+.chart-year-tooltip {
+    margin-top: 0.45rem;
+    min-height: 20px;
+    font-family: var(--font-code);
+    font-size: 0.74rem;
+    color: var(--color-data);
+    text-align: left;
+}
+
 .carousel-slide img {
     width: 100%; height: 100%; object-fit: cover;
 }
@@ -1079,6 +1204,42 @@ ul { list-style: none; }
     border-color: #ff5555;
     color: white;
     box-shadow: 0 0 20px rgba(255, 85, 85, 0.4);
+}
+
+.header-recruit-btn {
+    position: static;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 5px 10px;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-transform: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.header-recruit-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.header-recruit-btn:hover {
+    color: var(--color-game);
+    text-shadow: 0 0 10px var(--color-game);
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
 }
 
 /* Side Panel */

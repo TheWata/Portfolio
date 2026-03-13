@@ -196,12 +196,53 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     const modal = document.getElementById('report-modal');
     const closeModal = document.getElementById('close-report');
 
+    const aboutTitle = document.getElementById('about-title');
+    const aboutSubtitle = document.getElementById('about-subtitle');
+    const aboutText1 = document.getElementById('about-text-1');
+    const aboutText2 = document.getElementById('about-text-2');
+    const aboutText3 = document.getElementById('about-text-3');
+    const aboutText4 = document.getElementById('about-text-4');
+
+    const originalAboutCopy = {
+        title: aboutTitle ? aboutTitle.textContent : '',
+        subtitle: aboutSubtitle ? aboutSubtitle.textContent : '',
+        text1: aboutText1 ? aboutText1.textContent : '',
+        text2: aboutText2 ? aboutText2.textContent : '',
+        text3: aboutText3 ? aboutText3.textContent : '',
+        text4: aboutText4 ? aboutText4.textContent : ''
+    };
+
+    const recruitmentAboutCopy = {
+        title: 'MODO CONTRATAÇÃO',
+        subtitle: 'Como montar sua build ideal de contratação',
+        text1: 'Ative o modo recrutamento para transformar a skill tree em uma seleção prática de competências para o projeto.',
+        text2: 'Clique nos nós da árvore para adicionar ou remover habilidades do escopo. Cada habilidade impacta o investimento total.',
+        text3: 'Use os presets para começar rápido com perfis prontos e depois ajuste manualmente para o cenário da sua vaga.',
+        text4: 'Ao finalizar, gere a proposta para obter um resumo claro com objetivo, stack escolhida e estimativa de investimento.'
+    };
+
+    const updateAboutSectionCopy = (isRecruitmentMode) => {
+        const copy = isRecruitmentMode ? recruitmentAboutCopy : originalAboutCopy;
+        if (aboutTitle) aboutTitle.textContent = copy.title;
+        if (aboutSubtitle) aboutSubtitle.textContent = copy.subtitle;
+        if (aboutText1) aboutText1.textContent = copy.text1;
+        if (aboutText2) aboutText2.textContent = copy.text2;
+        if (aboutText3) aboutText3.textContent = copy.text3;
+        if (aboutText4) aboutText4.textContent = copy.text4;
+    };
+
     if(recruitBtn && recruitPanel) {
         recruitBtn.addEventListener('click', () => {
             hiringModeActive = !hiringModeActive;
             recruitBtn.classList.toggle('active');
             recruitPanel.classList.toggle('open');
-            recruitBtn.innerHTML = hiringModeActive ? '<span>✖</span> Fechar Contrato' : '<span>💼</span> Modo Recrutamento';
+            updateAboutSectionCopy(hiringModeActive);
+            recruitBtn.innerHTML = hiringModeActive
+                ? '<i data-lucide="x"></i> Fechar Contrato'
+                : '<i data-lucide="briefcase-business"></i> Modo Recrutamento';
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
             
             // Visual Hint
             if(hiringModeActive) updateTooltip({ label: 'MODO CONTRATAÇÃO', desc: 'Clique nos nós para adicionar ao orçamento.', status: 'recruit' });

@@ -15,6 +15,11 @@
     <nav class="navbar">
         <div class="logo"><a href="../index.html">PORTFÓLIO<span class="blink">_</span></a></div>
         <ul class="nav-links">
+            <li>
+                <button id="recruit-toggle" class="recruitment-toggle-btn header-recruit-btn">
+                    <i data-lucide="briefcase-business"></i> Modo Recrutamento
+                </button>
+            </li>
             <li><a href="dev.html" class="link-dev">Programação</a></li>
             <li><a href="data.html" class="link-data">Dados</a></li>
             <li><a href="games.html" class="link-game">Games</a></li>
@@ -28,24 +33,24 @@
 
         <!-- Coluna Esquerda: Info e Tooltip -->
         <div class="about-content">
-            <h1 style="font-size: 3rem; margin-bottom: 1rem;">SOBRE MIM</h1>
-            <h3> Analista de Dados & Desenvolvedor Full Stack </h3>
-            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+            <h1 id="about-title" style="font-size: 3rem; margin-bottom: 1rem;">SOBRE MIM</h1>
+            <h3 id="about-subtitle"> Analista de Dados & Desenvolvedor Full Stack </h3>
+            <p id="about-text-1" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Aos 21 anos, atuo na intersecção entre a inteligência de negócios e o desenvolvimento de sistemas.
             </p>
-             <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+             <p id="about-text-2" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Como Analista de Dados, domino o ecossistema de BI (Excel Avançado, Power Query e DAX), transformando bases complexas em dashboards
                 estratégicos. 
             </p>
-            <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+            <p id="about-text-3" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Como desenvolvedor, foco em arquitetura robusta com C#, .NET e SQL Server, expandindo fronteiras para o
                 desenvolvimento mobile com MAUI e a criação de jogos independentes (Indie Dev).
             </p>
-           <p style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+           <p id="about-text-4" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Sou movido pela eficiência técnica e pela resolução de problemas com foco em custo-benefício.
             </p>
             <!-- Card Dinâmico (Tooltip Fixo - Desktop) -->
-            <div id="skill-tooltip" class="skill-info-card">
+            <div id="skill-tooltip" class="skill-info-card skill-tooltip-below-content">
                 <div class="tooltip-content">
                     <h2 class="tooltip-title">Skill Tree</h2>
                     <span class="tooltip-status status-green" style="border:none; padding:0; background:none; color: var(--text-muted);">
@@ -55,7 +60,7 @@
                         Explore minhas competências técnicas e criativas. 
                     </p>
                 </div>
-            </div>-
+            </div>
 
             <!-- Mobile Cards (Accordion) -->
             <div class="mobile-skill-cards">
@@ -110,24 +115,20 @@
         <!-- Coluna Direita: A Árvore (Desktop) -->
         <div class="tree-wrapper" style="flex: 2; display: flex; flex-direction: column; position: relative;">
             <div class="view-selector" style="display: flex; gap: 10px; margin-bottom: 10px; justify-content: flex-end; z-index: 10;">
-                <button class="view-tab active" data-target="3d" style="padding: 8px 16px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--color-dev); color: var(--color-dev); cursor: pointer; border-radius: 4px; font-family: var(--font-code);">🌌 Vista 3D</button>
-                <button class="view-tab" data-target="2d" style="padding: 8px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--text-muted); color: var(--text-muted); cursor: pointer; border-radius: 4px; font-family: var(--font-code);">🗺️ Vista 2D</button>
+                <button class="view-tab" data-target="3d" style="padding: 8px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--text-muted); color: var(--text-muted); cursor: pointer; border-radius: 4px; font-family: var(--font-code);"><i data-lucide="orbit"></i> Vista 3D</button>
+                <button class="view-tab active" data-target="2d" style="padding: 8px 16px; background: rgba(0, 243, 255, 0.1); border: 1px solid var(--color-dev); color: var(--color-dev); cursor: pointer; border-radius: 4px; font-family: var(--font-code);"><i data-lucide="map"></i> Vista 2D</button>
             </div>
 
-            <div id="skill-tree-3d" class="skill-tree-container" style="width: 100%; height: 600px;">
+            <div id="skill-tree-3d" class="skill-tree-container" style="width: 100%; height: 600px; display: none;">
                 <!-- 3D Canvas -->
             </div>
             
-            <div id="skill-tree-2d" class="skill-tree-container" style="width: 100%; height: 600px; display: none;">
+            <div id="skill-tree-2d" class="skill-tree-container" style="width: 100%; height: 600px; display: block;">
                 <!-- 2D SVG/HTML -->
             </div>
         </div>
 
     </main>
-    <!-- Recruitment UI -->
-    <button id="recruit-toggle" class="recruitment-toggle-btn">
-        <span>💼</span> Modo Recrutamento
-    </button>
 
     <div id="recruitment-panel" class="recruitment-panel">
         <h2 class="panel-header-title">Controle de Contratação</h2>
@@ -216,37 +217,46 @@
     <script>
         // View Toggle Logic
         document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
             const btns = document.querySelectorAll('.view-tab');
             const container3d = document.getElementById('skill-tree-3d');
             const container2d = document.getElementById('skill-tree-2d');
 
+            const applyView = (target) => {
+                btns.forEach(b => {
+                    b.style.borderColor = 'var(--text-muted)';
+                    b.style.color = 'var(--text-muted)';
+                    b.style.background = 'rgba(255, 255, 255, 0.05)';
+                });
+
+                const activeBtn = Array.from(btns).find(b => b.getAttribute('data-target') === target);
+                if (activeBtn) {
+                    activeBtn.style.borderColor = 'var(--color-dev)';
+                    activeBtn.style.color = 'var(--color-dev)';
+                    activeBtn.style.background = 'rgba(0, 243, 255, 0.1)';
+                }
+
+                if(target === '3d') {
+                    container3d.style.display = 'block';
+                    container2d.style.display = 'none';
+                    window.dispatchEvent(new Event('resize'));
+                } else {
+                    container3d.style.display = 'none';
+                    container2d.style.display = 'block';
+                }
+            };
+
             btns.forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const target = btn.getAttribute('data-target');
-                    
-                    // Reset Btns
-                    btns.forEach(b => {
-                        b.style.borderColor = 'var(--text-muted)';
-                        b.style.color = 'var(--text-muted)';
-                        b.style.background = 'rgba(255, 255, 255, 0.05)';
-                    });
-
-                    // Active Btn
-                    btn.style.borderColor = 'var(--color-dev)';
-                    btn.style.color = 'var(--color-dev)';
-                    btn.style.background = 'rgba(0, 243, 255, 0.1)';
-
-                    if(target === '3d') {
-                        container3d.style.display = 'block';
-                        container2d.style.display = 'none';
-                        // Force resize event to update canvas size in case it was hidden
-                        window.dispatchEvent(new Event('resize'));
-                    } else {
-                        container3d.style.display = 'none';
-                        container2d.style.display = 'block';
-                    }
+                    applyView(btn.getAttribute('data-target'));
                 });
             });
+
+            // Padrão inicial: mapa 2D
+            applyView('2d');
         });
     </script>
 </body>

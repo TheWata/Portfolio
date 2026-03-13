@@ -109,16 +109,187 @@
                 tags: ['Power BI', 'DAX', 'SQL Server'],
                 desc: 'Dashboard interativo desenvolvido no Power BI para monitoramento de KPIs de vendas em tempo real. O projeto integra dados de múltiplas fontes via SQL Server, utiliza medidas DAX complexas para análise YoY (Year over Year) e sazonalidade, permitindo à diretoria identificar tendências de mercado e otimizar a força de vendas.',
                 link: '#', // Adicione o link real depois
-                slides: ['Visão Geral', 'Análise por Região', 'Performance de Vendedores']
+                slides: [
+                    {
+                        type: 'chart',
+                        title: 'Faturamento Anual',
+                        tooltipLabel: 'Faturamento',
+                        unit: 'currency-mi',
+                        points: [
+                            { year: '2020', value: 1.8 },
+                            { year: '2021', value: 2.4 },
+                            { year: '2022', value: 3.1 },
+                            { year: '2023', value: 3.8 },
+                            { year: '2024', value: 4.3 }
+                        ]
+                    },
+                    {
+                        type: 'chart',
+                        title: 'Ticket Médio por Ano',
+                        tooltipLabel: 'Ticket Médio',
+                        unit: 'currency-k',
+                        points: [
+                            { year: '2020', value: 5.2 },
+                            { year: '2021', value: 5.9 },
+                            { year: '2022', value: 6.7 },
+                            { year: '2023', value: 7.4 },
+                            { year: '2024', value: 8.1 }
+                        ]
+                    },
+                    {
+                        type: 'chart',
+                        title: 'Crescimento YoY',
+                        tooltipLabel: 'Crescimento',
+                        unit: 'percent',
+                        points: [
+                            { year: '2020', value: 6.1 },
+                            { year: '2021', value: 8.4 },
+                            { year: '2022', value: 11.2 },
+                            { year: '2023', value: 9.7 },
+                            { year: '2024', value: 13.5 }
+                        ]
+                    }
+                ]
             },
             churn_analysis: {
                 title: 'Retenção de Clientes (Churn)',
                 tags: ['Python', 'Pandas', 'Scikit-Learn'],
                 desc: 'Estudo aprofundado sobre cancelamento de contratos em uma empresa de SaaS. Utilizando Python e bibliotecas de Data Science, foi realizada uma análise exploratória (EDA) para identificar fatores críticos de insatisfação. Um modelo de classificação foi treinado para prever clientes em risco, aumentando a retenção em 15%.',
                 link: '#', // Adicione o link real depois
-                slides: ['Matriz de Correlação', 'Feature Importance', 'Relatório Final']
+                slides: [
+                    {
+                        type: 'chart',
+                        title: 'Taxa de Churn',
+                        tooltipLabel: 'Churn',
+                        unit: 'percent',
+                        points: [
+                            { year: '2020', value: 14.8 },
+                            { year: '2021', value: 13.3 },
+                            { year: '2022', value: 11.5 },
+                            { year: '2023', value: 10.2 },
+                            { year: '2024', value: 8.7 }
+                        ]
+                    },
+                    {
+                        type: 'chart',
+                        title: 'Clientes Retidos',
+                        tooltipLabel: 'Retidos',
+                        unit: 'count',
+                        points: [
+                            { year: '2020', value: 920 },
+                            { year: '2021', value: 1010 },
+                            { year: '2022', value: 1145 },
+                            { year: '2023', value: 1250 },
+                            { year: '2024', value: 1390 }
+                        ]
+                    },
+                    {
+                        type: 'chart',
+                        title: 'Precisão do Modelo',
+                        tooltipLabel: 'Precisão',
+                        unit: 'percent',
+                        points: [
+                            { year: '2020', value: 71.4 },
+                            { year: '2021', value: 76.9 },
+                            { year: '2022', value: 81.2 },
+                            { year: '2023', value: 84.8 },
+                            { year: '2024', value: 88.6 }
+                        ]
+                    }
+                ]
             },
         };
+
+        function formatChartValue(value, unit) {
+            if (unit === 'percent') {
+                return `${value.toFixed(1)}%`;
+            }
+
+            if (unit === 'currency-mi') {
+                return `R$ ${value.toFixed(1)} mi`;
+            }
+
+            if (unit === 'currency-k') {
+                return `R$ ${value.toFixed(1)} mil`;
+            }
+
+            return Number(value).toLocaleString('pt-BR');
+        }
+
+        function createChartSlide(slide) {
+            const points = slide.points || [];
+            const maxValue = Math.max(...points.map(p => p.value), 1);
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'dashboard-chart-slide';
+
+            const title = document.createElement('div');
+            title.className = 'chart-slide-title';
+            title.textContent = slide.title;
+
+            const bars = document.createElement('div');
+            bars.className = 'chart-bars';
+
+            const legend = document.createElement('div');
+            legend.className = 'chart-legend';
+
+            const tooltip = document.createElement('div');
+            tooltip.className = 'chart-year-tooltip';
+            tooltip.textContent = 'Passe em um ano na legenda para ver o detalhe.';
+
+            const barItems = [];
+            const legendButtons = [];
+
+            const setActivePoint = (index) => {
+                barItems.forEach((item, i) => item.classList.toggle('is-active', i === index));
+                legendButtons.forEach((btn, i) => btn.classList.toggle('is-active', i === index));
+
+                const point = points[index];
+                if (!point) {
+                    tooltip.textContent = 'Passe em um ano na legenda para ver o detalhe.';
+                    return;
+                }
+
+                tooltip.textContent = `${point.year} • ${slide.tooltipLabel}: ${formatChartValue(point.value, slide.unit)}`;
+            };
+
+            points.forEach((point, index) => {
+                const item = document.createElement('div');
+                item.className = 'chart-bar-item';
+
+                const value = document.createElement('span');
+                value.className = 'chart-value';
+                value.textContent = formatChartValue(point.value, slide.unit);
+
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = `${Math.max(18, (point.value / maxValue) * 100)}%`;
+
+                item.appendChild(value);
+                item.appendChild(bar);
+                bars.appendChild(item);
+                barItems.push(item);
+
+                const legendBtn = document.createElement('button');
+                legendBtn.type = 'button';
+                legendBtn.className = 'chart-legend-item';
+                legendBtn.textContent = point.year;
+                legendBtn.addEventListener('mouseenter', () => setActivePoint(index));
+                legendBtn.addEventListener('focus', () => setActivePoint(index));
+                legendBtn.addEventListener('click', () => setActivePoint(index));
+                legend.appendChild(legendBtn);
+                legendButtons.push(legendBtn);
+            });
+
+            setActivePoint(0);
+
+            wrapper.appendChild(title);
+            wrapper.appendChild(bars);
+            wrapper.appendChild(legend);
+            wrapper.appendChild(tooltip);
+
+            return wrapper;
+        }
 
         let currentSlideIndex = 0;
         let totalSlides = 0;
@@ -170,12 +341,19 @@
             currentSlideIndex = 0;
             totalSlides = slides.length;
 
-            slides.forEach((slideText, index) => {
+            slides.forEach((slideData, index) => {
                 // Slide
                 const div = document.createElement('div');
                 div.className = 'carousel-slide';
-                // Placeholder Simples (fundo escuro com texto do slide)
-                div.innerHTML = `<span>${slideText}</span>`; 
+
+                if (typeof slideData === 'string') {
+                    div.innerHTML = `<span>${slideData}</span>`;
+                } else if (slideData?.type === 'chart') {
+                    div.appendChild(createChartSlide(slideData));
+                } else {
+                    div.innerHTML = '<span>Sem dados para exibir.</span>';
+                }
+
                 track.appendChild(div);
 
                 // Dot
