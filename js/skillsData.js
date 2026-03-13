@@ -30,7 +30,7 @@ export const skillsData = [
 
     // Intersecções centrais
     { id: 'sql', label: 'Bancos SQL', x: 50, y: 25, status: 'mastered', parents: ['data_root', 'dev_root'], icon: 'database', desc: 'SQL Server e PostgreSQL.' },
-    { id: 'csharp', label: 'C#', x: 80, y: 85, status: 'mastered', parents: ['backend', 'unity'], icon: 'terminal', desc: 'Linguagem base para .NET e Unity.' },
+    { id: 'csharp', label: 'C#', x: 80, y: 85, status: 'mastered', parents: ['backend', 'unity', 'maui'], icon: 'terminal', desc: 'Linguagem base para .NET e Unity.' },
     
     //databases
     { id: 'firebase', label: 'Firebase', x: 50, y: 7, status: 'developing', parent: 'sql', icon: 'flame', desc: 'Backend as a Service e Realtime Database.' },
