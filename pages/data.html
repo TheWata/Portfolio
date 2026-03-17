@@ -16,9 +16,10 @@
     <nav class="navbar">
         <div class="logo"><a href="../index.html">PORTFÓLIO<span class="blink">_</span></a></div>
         <ul class="nav-links">
-            <li><a href="dev.html" class="link-dev">Programação</a></li>
-            <li><a href="data.html" class="link-data" style="color: var(--color-data); text-shadow: 0 0 10px var(--color-data);">Dados</a></li>
-            <li><a href="games.html" class="link-game">Games</a></li>
+            <li><a href="dev.html" class="link-dev" data-i18n="nav.programming">Programação</a></li>
+            <li><a href="data.html" class="link-data" data-i18n="nav.data" style="color: var(--color-data); text-shadow: 0 0 10px var(--color-data);">Dados</a></li>
+            <li><a href="games.html" class="link-game" data-i18n="nav.games">Games</a></li>
+            <li><button id="lang-toggle" class="lang-toggle-btn" aria-label="Switch language">EN</button></li>
         </ul>
     </nav>
 
@@ -34,8 +35,8 @@
             <!-- Estado Inicial: Placeholder -->
             <div class="project-placeholder" id="placeholder">
                 <i data-lucide="bar-chart-2"></i>
-                <h3>Selecione uma análise para ver os detalhes</h3>
-                <p>Navegue pela lista ao lado.</p>
+                <h3 data-i18n="data.placeholderTitle">Selecione uma análise para ver os detalhes</h3>
+                <p data-i18n="data.placeholderDesc">Navegue pela lista ao lado.</p>
             </div>
 
             <!-- Conteúdo Dinâmico -->
@@ -65,7 +66,7 @@
 
                 <a href="#" target="_blank" class="btn-github" id="p-link">
                     <i data-lucide="github"></i>
-                    Ver Documentação
+                    <span data-i18n="data.docs">Ver Documentação</span>
                 </a>
             </div>
         </aside>
@@ -77,6 +78,7 @@
             <div class="project-card" onclick="selectProject('sales_dashboard')">
                 <div class="card-header">
                     <span class="card-title">Sales Intelligence</span>
+                    <span class="project-dev-badge" data-i18n="project.inDev">Em desenvolvimento</span>
                     <i data-lucide="trending-up" style="color: var(--color-data);"></i>
                 </div>
                 <p class="card-mini-desc">Dashboard estratégico de vendas com previsão de faturamento.</p>
@@ -89,6 +91,7 @@
             <div class="project-card" onclick="selectProject('churn_analysis')">
                 <div class="card-header">
                     <span class="card-title">Retenção de Clientes</span>
+                    <span class="project-dev-badge" data-i18n="project.inDev">Em desenvolvimento</span>
                     <i data-lucide="users" style="color: var(--color-data);"></i>
                 </div>
                 <p class="card-mini-desc">Modelo preditivo de Churn utilizando Machine Learning (Python).</p>
@@ -101,6 +104,7 @@
 
     </main>
 
+    <script src="../js/i18n.js"></script>
     <script>
         // Dados dos Projetos
         const projectsData = {

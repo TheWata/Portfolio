@@ -203,26 +203,32 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
     const aboutText3 = document.getElementById('about-text-3');
     const aboutText4 = document.getElementById('about-text-4');
 
-    const originalAboutCopy = {
-        title: aboutTitle ? aboutTitle.textContent : '',
-        subtitle: aboutSubtitle ? aboutSubtitle.textContent : '',
-        text1: aboutText1 ? aboutText1.textContent : '',
-        text2: aboutText2 ? aboutText2.textContent : '',
-        text3: aboutText3 ? aboutText3.textContent : '',
-        text4: aboutText4 ? aboutText4.textContent : ''
-    };
-
-    const recruitmentAboutCopy = {
-        title: 'MODO CONTRATAÇÃO',
-        subtitle: 'Como montar sua build ideal de contratação',
-        text1: 'Ative o modo recrutamento para transformar a skill tree em uma seleção prática de competências para o projeto.',
-        text2: 'Clique nos nós da árvore para adicionar ou remover habilidades do escopo. Cada habilidade impacta o investimento total.',
-        text3: 'Use os presets para começar rápido com perfis prontos e depois ajuste manualmente para o cenário da sua vaga.',
-        text4: 'Ao finalizar, gere a proposta para obter um resumo claro com objetivo, stack escolhida e estimativa de investimento.'
+    const tr = (key, fallback) => {
+        if (window.PortfolioI18n && typeof window.PortfolioI18n.t === 'function') {
+            return window.PortfolioI18n.t(key);
+        }
+        return fallback;
     };
 
     const updateAboutSectionCopy = (isRecruitmentMode) => {
-        const copy = isRecruitmentMode ? recruitmentAboutCopy : originalAboutCopy;
+        const copy = isRecruitmentMode
+            ? {
+                title: tr('about.recruit.title', 'MODO CONTRATAÇÃO'),
+                subtitle: tr('about.recruit.subtitle', 'Como montar sua build ideal de contratação'),
+                text1: tr('about.recruit.p1', 'Ative o modo recrutamento para transformar a skill tree em uma seleção prática de competências para o projeto.'),
+                text2: tr('about.recruit.p2', 'Clique nos nós da árvore para adicionar ou remover habilidades do escopo. Cada habilidade impacta o investimento total.'),
+                text3: tr('about.recruit.p3', 'Use os presets para começar rápido com perfis prontos e depois ajuste manualmente para o cenário da sua vaga.'),
+                text4: tr('about.recruit.p4', 'Ao finalizar, gere a proposta para obter um resumo claro com objetivo, stack escolhida e estimativa de investimento.')
+            }
+            : {
+                title: tr('about.title', 'SOBRE MIM'),
+                subtitle: tr('about.subtitle', 'Analista de Dados & Desenvolvedor Full Stack'),
+                text1: tr('about.p1', 'Aos 21 anos, atuo na intersecção entre a inteligência de negócios e o desenvolvimento de sistemas.'),
+                text2: tr('about.p2', 'Como Analista de Dados, domino o ecossistema de BI (Excel Avançado, Power Query e DAX), transformando bases complexas em dashboards estratégicos.'),
+                text3: tr('about.p3', 'Como desenvolvedor, foco em arquitetura robusta com C#, .NET e SQL Server, expandindo fronteiras para o desenvolvimento mobile com MAUI e a criação de jogos independentes (Indie Dev).'),
+                text4: tr('about.p4', 'Sou movido pela eficiência técnica e pela resolução de problemas com foco em custo-benefício.')
+            };
+
         if (aboutTitle) aboutTitle.textContent = copy.title;
         if (aboutSubtitle) aboutSubtitle.textContent = copy.subtitle;
         if (aboutText1) aboutText1.textContent = copy.text1;
@@ -231,26 +237,42 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         if (aboutText4) aboutText4.textContent = copy.text4;
     };
 
+    const updateRecruitButtonLabel = () => {
+        if (!recruitBtn) return;
+        const label = hiringModeActive
+            ? tr('about.recruitClose', 'Fechar Contrato')
+            : tr('nav.recruitment', 'Modo Recrutamento');
+        const icon = hiringModeActive ? 'x' : 'briefcase-business';
+        recruitBtn.innerHTML = `<i data-lucide="${icon}"></i> ${label}`;
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    };
+
     if(recruitBtn && recruitPanel) {
         recruitBtn.addEventListener('click', () => {
             hiringModeActive = !hiringModeActive;
             recruitBtn.classList.toggle('active');
             recruitPanel.classList.toggle('open');
             updateAboutSectionCopy(hiringModeActive);
-            recruitBtn.innerHTML = hiringModeActive
-                ? '<i data-lucide="x"></i> Fechar Contrato'
-                : '<i data-lucide="briefcase-business"></i> Modo Recrutamento';
-            if (window.lucide) {
-                window.lucide.createIcons();
-            }
+            updateRecruitButtonLabel();
             
             // Visual Hint
-            if(hiringModeActive) updateTooltip({ label: 'MODO CONTRATAÇÃO', desc: 'Clique nos nós para adicionar ao orçamento.', status: 'recruit' });
+            if(hiringModeActive) updateTooltip({
+                label: tr('about.recruitHintTitle', 'MODO CONTRATAÇÃO'),
+                desc: tr('about.recruitHintDesc', 'Clique nos nós para adicionar ao orçamento.'),
+                status: 'recruit'
+            });
             
             // Sync with 2D Visuals
             window.updateVisualsFromCart();
         });
     }
+
+    window.addEventListener('portfolio-language-changed', () => {
+        updateAboutSectionCopy(hiringModeActive);
+        updateRecruitButtonLabel();
+    });
 
     document.querySelectorAll('.preset-btn').forEach(btn => {
         btn.addEventListener('click', () => activatePreset(btn.getAttribute('data-preset')));

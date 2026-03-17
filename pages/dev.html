@@ -16,9 +16,10 @@
     <nav class="navbar">
         <div class="logo"><a href="../index.html">PORTFÓLIO<span class="blink">_</span></a></div>
         <ul class="nav-links">
-            <li><a href="dev.html" class="link-dev" style="color: var(--color-dev); text-shadow: 0 0 10px var(--color-dev);">Programação</a></li>
-            <li><a href="data.html" class="link-data">Dados</a></li>
-            <li><a href="games.html" class="link-game">Games</a></li>
+            <li><a href="dev.html" class="link-dev" data-i18n="nav.programming" style="color: var(--color-dev); text-shadow: 0 0 10px var(--color-dev);">Programação</a></li>
+            <li><a href="data.html" class="link-data" data-i18n="nav.data">Dados</a></li>
+            <li><a href="games.html" class="link-game" data-i18n="nav.games">Games</a></li>
+            <li><button id="lang-toggle" class="lang-toggle-btn" aria-label="Switch language">EN</button></li>
         </ul>
     </nav>
 
@@ -34,8 +35,8 @@
             <!-- Estado Inicial: Placeholder -->
             <div class="project-placeholder" id="placeholder">
                 <i data-lucide="code-2"></i>
-                <h3>Selecione um projeto para ver os detalhes</h3>
-                <p>Navegue pela lista ao lado.</p>
+                <h3 data-i18n="dev.placeholderTitle">Selecione um projeto para ver os detalhes</h3>
+                <p data-i18n="dev.placeholderDesc">Navegue pela lista ao lado.</p>
             </div>
 
             <!-- Conteúdo Dinâmico -->
@@ -65,7 +66,7 @@
 
                 <a href="#" target="_blank" class="btn-github" id="p-link">
                     <i data-lucide="github"></i>
-                    Ver no GitHub
+                    <span data-i18n="dev.github">Ver no GitHub</span>
                 </a>
             </div>
         </aside>
@@ -77,6 +78,7 @@
             <div class="project-card" onclick="selectProject('togather')">
                 <div class="card-header">
                     <span class="card-title">ToGather</span>
+                    <span class="project-dev-badge" data-i18n="project.inDev">Em desenvolvimento</span>
                     <i data-lucide="users" style="color: var(--color-dev);"></i>
                 </div>
                 <p class="card-mini-desc">Rede Social voltada para Círculos Íntimos e conexões reais.</p>
@@ -89,6 +91,7 @@
             <div class="project-card" onclick="selectProject('status')">
                 <div class="card-header">
                     <span class="card-title">STATUS</span>
+                    <span class="project-dev-badge" data-i18n="project.inDev">Em desenvolvimento</span>
                     <i data-lucide="trophy" style="color: var(--color-dev);"></i>
                 </div>
                 <p class="card-mini-desc">Ecossistema de Autaperfeiçoamento Gamificado (Solo Leveling).</p>
@@ -101,6 +104,7 @@
             <div class="project-card" onclick="selectProject('safeconf')">
                 <div class="card-header">
                     <span class="card-title">SafeConf</span>
+                    <span class="project-dev-badge" data-i18n="project.inDev">Em desenvolvimento</span>
                     <i data-lucide="shield" style="color: var(--color-dev);"></i>
                 </div>
                 <p class="card-mini-desc">Sistema para manutenção predial preventiva, garantindo segurança e eficiência do trabalho.</p>
@@ -113,6 +117,7 @@
 
     </main>
 
+    <script src="../js/i18n.js"></script>
     <script>
         // Dados dos Projetos
         const projectsData = {

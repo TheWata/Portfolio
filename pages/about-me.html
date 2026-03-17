@@ -17,12 +17,13 @@
         <ul class="nav-links">
             <li>
                 <button id="recruit-toggle" class="recruitment-toggle-btn header-recruit-btn">
-                    <i data-lucide="briefcase-business"></i> Modo Recrutamento
+                    <i data-lucide="briefcase-business"></i> <span data-i18n="nav.recruitment">Modo Recrutamento</span>
                 </button>
             </li>
-            <li><a href="dev.html" class="link-dev">Programação</a></li>
-            <li><a href="data.html" class="link-data">Dados</a></li>
-            <li><a href="games.html" class="link-game">Games</a></li>
+            <li><a href="dev.html" class="link-dev" data-i18n="nav.programming">Programação</a></li>
+            <li><a href="data.html" class="link-data" data-i18n="nav.data">Dados</a></li>
+            <li><a href="games.html" class="link-game" data-i18n="nav.games">Games</a></li>
+            <li><button id="lang-toggle" class="lang-toggle-btn" aria-label="Switch language">EN</button></li>
         </ul>
     </nav>
 
@@ -33,30 +34,30 @@
 
         <!-- Coluna Esquerda: Info e Tooltip -->
         <div class="about-content">
-            <h1 id="about-title" style="font-size: 3rem; margin-bottom: 1rem;">SOBRE MIM</h1>
-            <h3 id="about-subtitle"> Analista de Dados & Desenvolvedor Full Stack </h3>
-            <p id="about-text-1" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+            <h1 id="about-title" data-i18n="about.title" style="font-size: 3rem; margin-bottom: 1rem;">SOBRE MIM</h1>
+            <h3 id="about-subtitle" data-i18n="about.subtitle"> Analista de Dados & Desenvolvedor Full Stack </h3>
+            <p id="about-text-1" data-i18n="about.p1" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Aos 21 anos, atuo na intersecção entre a inteligência de negócios e o desenvolvimento de sistemas.
             </p>
-             <p id="about-text-2" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+             <p id="about-text-2" data-i18n="about.p2" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Como Analista de Dados, domino o ecossistema de BI (Excel Avançado, Power Query e DAX), transformando bases complexas em dashboards
                 estratégicos. 
             </p>
-            <p id="about-text-3" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+            <p id="about-text-3" data-i18n="about.p3" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Como desenvolvedor, foco em arquitetura robusta com C#, .NET e SQL Server, expandindo fronteiras para o
                 desenvolvimento mobile com MAUI e a criação de jogos independentes (Indie Dev).
             </p>
-           <p id="about-text-4" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
+           <p id="about-text-4" data-i18n="about.p4" style="margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem;">
                 Sou movido pela eficiência técnica e pela resolução de problemas com foco em custo-benefício.
             </p>
             <!-- Card Dinâmico (Tooltip Fixo - Desktop) -->
             <div id="skill-tooltip" class="skill-info-card skill-tooltip-below-content">
                 <div class="tooltip-content">
-                    <h2 class="tooltip-title">Skill Tree</h2>
-                    <span class="tooltip-status status-green" style="border:none; padding:0; background:none; color: var(--text-muted);">
+                    <h2 class="tooltip-title" data-i18n="about.tooltipTitle">Skill Tree</h2>
+                    <span class="tooltip-status status-green" data-i18n="about.tooltipHint" style="border:none; padding:0; background:none; color: var(--text-muted);">
                         // Selecione uma habilidade
                     </span>
-                    <p class="tooltip-desc">
+                    <p class="tooltip-desc" data-i18n="about.tooltipDesc">
                         Explore minhas competências técnicas e criativas. 
                     </p>
                 </div>
@@ -202,6 +203,7 @@
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../js/i18n.js"></script>
     <!-- Import Map para garantir versões compatíveis do Three.js e Addons -->
     <script type="importmap">
         {

@@ -15,25 +15,26 @@
     <nav class="navbar">
         <div class="logo">PORTFÓLIO<span class="blink">_</span></div>
         <ul class="nav-links">
-            <li><a href="pages/dev.html" class="link-dev">Programação</a></li>
-            <li><a href="pages/data.html" class="link-data">Dados</a></li>
-            <li><a href="pages/games.html" class="link-game">Games</a></li>
+            <li><a href="pages/dev.html" class="link-dev" data-i18n="nav.programming">Programação</a></li>
+            <li><a href="pages/data.html" class="link-data" data-i18n="nav.data">Dados</a></li>
+            <li><a href="pages/games.html" class="link-game" data-i18n="nav.games">Games</a></li>
+            <li><button id="lang-toggle" class="lang-toggle-btn" aria-label="Switch language">EN</button></li>
         </ul>
     </nav>
 
     <header class="hero">
-        <h2 class="hero-subtitle" style="color: yellow;">&lt; Portfólio em desenvolvimento ></h2>
+        <h2 class="hero-subtitle" style="color: yellow;" data-i18n="index.wip">&lt; Portfólio em desenvolvimento ></h2>
         <div class="hero-content">
             <h1 class="glitch-text" >JOÃO PEDRO EITI WATANABE</h1>
-            <h2 class="hero-subtitle">Desenvolvedor, Analista de Dados e Gamer</h2>
+            <h2 class="hero-subtitle" data-i18n="index.subtitle">Desenvolvedor, Analista de Dados e Gamer</h2>
             <div class="status-module">
-                <span class="status-label">STATUS ATUAL:</span>
-                <span class="status-value typing-effect">FOCADO EM: ANÁLISE DE DADOS & POWER BI</span>
+                <span class="status-label" data-i18n="index.statusLabel">STATUS ATUAL:</span>
+                <span class="status-value typing-effect" data-i18n="index.statusValue">FOCADO EM: ANÁLISE DE DADOS & POWER BI</span>
             </div>
-            <p class="hero-description">
+            <p class="hero-description" data-i18n="index.description">
                 Desenvolvendo soluções complexas através de código, dados e interatividade.
             </p>
-            <a href="pages/about-me.html" class="cta-button">SOBRE MIM ></a>
+            <a href="pages/about-me.html" class="cta-button" data-i18n="index.about">SOBRE MIM ></a>
         </div>
         <div class="hero-bg-grid"></div>
     </header>
@@ -45,25 +46,25 @@
             <article class="theme-card theme-dev">
                 <div class="card-bg-pattern"></div>
                 <div class="card-icon">&lt;/&gt;</div>
-                <h3 class="theme-title">Programação</h3>
-                <p class="theme-description">Desenvolvimento de aplicações multiplataforma com foco em alta performance, design limpo e interfaces intuitivas.</p>
-                <a href="https://github.com/TheWata/" class="card-link">Explorar Código ></a>
+                <h3 class="theme-title" data-i18n="index.themeProgramming">Programação</h3>
+                <p class="theme-description" data-i18n="index.themeProgrammingDesc">Desenvolvimento de aplicações multiplataforma com foco em alta performance, design limpo e interfaces intuitivas.</p>
+                <a href="https://github.com/TheWata/" class="card-link" data-i18n="index.themeProgrammingLink">Explorar Código ></a>
             </article>
 
             <article class="theme-card theme-data">
                 <div class="card-bg-pattern"></div>
                 <div class="card-icon">📊</div>
-                <h3 class="theme-title">Análise de Dados</h3>
-                <p class="theme-description">Transformação de dados brutos em insights estratégicos usando BI, análise preditiva e visualização de dados.</p>
-                <a href="https://github.com/TheWata/" class="card-link">Ver Análises ></a>
+                <h3 class="theme-title" data-i18n="index.themeData">Análise de Dados</h3>
+                <p class="theme-description" data-i18n="index.themeDataDesc">Transformação de dados brutos em insights estratégicos usando BI, análise preditiva e visualização de dados.</p>
+                <a href="https://github.com/TheWata/" class="card-link" data-i18n="index.themeDataLink">Ver Análises ></a>
             </article>
 
             <article class="theme-card theme-game">
                 <div class="card-bg-pattern"></div>
                 <div class="card-icon">🎮</div>
-                <h3 class="theme-title">Games</h3>
-                <p class="theme-description">Criação de experiências interativas e protótipos de jogos com foco em mecânicas e design lúdico.</p>
-                <a href="https://github.com/TheWata/" class="card-link">Jogar Demos ></a>
+                <h3 class="theme-title" data-i18n="index.themeGames">Games</h3>
+                <p class="theme-description" data-i18n="index.themeGamesDesc">Criação de experiências interativas e protótipos de jogos com foco em mecânicas e design lúdico.</p>
+                <a href="https://github.com/TheWata/" class="card-link" data-i18n="index.themeGamesLink">Jogar Demos ></a>
             </article>
 
         </div>
@@ -71,9 +72,9 @@
     </section>
 
     <footer>
-        <p>SYSTEM.OFF // © 2024</p>
+        <p data-i18n="index.footer">SYSTEM.OFF // © 2024</p>
     </footer>
-    
+    <script src="js/i18n.js"></script>
     <script src="js/main.js"></script>
 </body>
-</html>
+</html> 

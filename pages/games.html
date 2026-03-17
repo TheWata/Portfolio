@@ -16,9 +16,10 @@
     <nav class="navbar">
         <div class="logo"><a href="../index.html">PORTFÓLIO<span class="blink">_</span></a></div>
         <ul class="nav-links">
-            <li><a href="dev.html" class="link-dev">Programação</a></li>
-            <li><a href="data.html" class="link-data">Dados</a></li>
-            <li><a href="games.html" class="link-game" style="color: var(--color-game); text-shadow: 0 0 10px var(--color-game);">Games</a></li>
+            <li><a href="dev.html" class="link-dev" data-i18n="nav.programming">Programação</a></li>
+            <li><a href="data.html" class="link-data" data-i18n="nav.data">Dados</a></li>
+            <li><a href="games.html" class="link-game" data-i18n="nav.games" style="color: var(--color-game); text-shadow: 0 0 10px var(--color-game);">Games</a></li>
+            <li><button id="lang-toggle" class="lang-toggle-btn" aria-label="Switch language">EN</button></li>
         </ul>
     </nav>
 
@@ -30,19 +31,20 @@
         <div style="text-align: center; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; background: var(--bg-panel); backdrop-filter: blur(5px); max-width: 500px;">
             <i data-lucide="gamepad-2" style="width: 80px; height: 80px; color: var(--color-game); margin-bottom: 1.5rem; filter: drop-shadow(0 0 10px var(--color-game));"></i>
             
-            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-main);">Game Dev</h1>
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--text-main);" data-i18n="games.title">Game Dev</h1>
             
-            <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;">
+            <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem;" data-i18n="games.empty">
                 Ainda não há nada aqui.
             </p>
 
-            <p style="font-family: var(--font-code); font-size: 0.9rem; color: var(--color-wip);">
+            <p style="font-family: var(--font-code); font-size: 0.9rem; color: var(--color-wip);" data-i18n="games.wip">
                 // Projetos em desenvolvimento...
             </p>
         </div>
 
     </main>
 
+    <script src="../js/i18n.js"></script>
     <script>
         lucide.createIcons();
     </script>
